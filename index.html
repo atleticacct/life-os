@@ -167,13 +167,35 @@ html,body{overscroll-behavior-y:none;-webkit-text-size-adjust:100%;touch-action:
 button,.chip,.nav-btn,.fab,.report-btn{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
 @supports(height:100dvh){.app-shell{min-height:100dvh}.screen{min-height:calc(100dvh - 92px)}}
 @media(display-mode:standalone){body{background:var(--bg)}.app-shell{box-shadow:none}.home-hero,.page-hero{padding-top:calc(14px + env(safe-area-inset-top))}}
+/* V1.0.21 · Aplicativo & backup reorganizado para mobile */
 .pwa-card{background:linear-gradient(145deg,#f7fbff,#fff);border-color:#dbe8ff}
-.pwa-status{display:flex;align-items:flex-start;gap:11px}
-.pwa-status-icon{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:#eaf2ff;color:var(--primary);flex:none}
-.pwa-status strong{display:block;font-size:13px}.pwa-status p{font-size:10px;color:var(--muted);line-height:1.45;margin:4px 0 0}
-.pwa-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.pwa-actions .full-row{grid-column:1/-1}
-.pwa-tip{margin-top:10px;padding:10px 11px;border-radius:12px;background:#f5f7fb;color:#5f6d83;font-size:10px;line-height:1.45}
-#backupImportInput{display:none}
+.pwa-stack{display:grid;gap:10px;margin-top:10px}
+.pwa-panel{border:1px solid #e5ebf5;background:rgba(255,255,255,.88);border-radius:17px;padding:13px;box-shadow:0 5px 16px rgba(47,69,105,.05)}
+.pwa-panel-head{display:flex;align-items:flex-start;gap:11px}
+.pwa-panel-icon{width:40px;height:40px;border-radius:13px;display:grid;place-items:center;flex:none;background:#eaf2ff;color:var(--primary)}
+.pwa-panel-icon.backup{background:#eef9f5;color:#1d9a70}
+.pwa-panel-icon.finance{background:#f1edff;color:#6f58d8}
+.pwa-panel-copy{min-width:0;flex:1}
+.pwa-panel-copy strong{display:block;font-size:13px;line-height:1.25}
+.pwa-panel-copy p{font-size:10px;color:var(--muted);line-height:1.45;margin:4px 0 0}
+.pwa-panel .primary,.pwa-panel .secondary{min-height:44px}
+.pwa-install-action{margin-top:12px;width:100%}
+.pwa-help-btn{display:block;margin:7px auto 0;padding:6px 8px}
+.pwa-action-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:12px}
+.pwa-meta{display:flex;align-items:center;gap:7px;margin-top:9px;padding:8px 9px;border-radius:11px;background:#f6f8fb;color:#6c788b;font-size:9px;line-height:1.35}
+.pwa-meta:before{content:'';width:7px;height:7px;border-radius:50%;background:#c5ceda;flex:none}
+.pwa-meta.success{background:#eff9f4;color:#287a5c}.pwa-meta.success:before{background:#2ab07a}
+.pwa-file-box{display:grid;grid-template-columns:auto minmax(0,1fr);gap:9px;align-items:center;margin-top:12px;padding:9px;border:1px dashed #d5deeb;border-radius:13px;background:#fbfcff}
+.pwa-file-box .secondary{padding:9px 11px;white-space:nowrap}
+.pwa-file-copy{min-width:0}
+.pwa-file-copy strong{display:block;font-size:10px;color:#4a5870;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pwa-file-copy small{display:block;font-size:9px;color:var(--muted);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pwa-plan-import{width:100%;margin-top:9px}
+.pwa-plan-import:disabled{opacity:.48;box-shadow:none;cursor:default}
+.pwa-plan-state{margin-top:9px;padding:9px 10px;border-radius:11px;background:#f6f8fb;color:#657289;font-size:9px;line-height:1.4}
+.pwa-plan-state.success{background:#eff9f4;color:#287a5c;font-weight:750}
+#financialPlanImportInput,#backupImportInput{display:none!important}
+@media(max-width:360px){.pwa-action-row{grid-template-columns:minmax(0,1fr)}.pwa-file-box{grid-template-columns:minmax(0,1fr)}.pwa-file-box .secondary{width:100%}}
 
 </style>
 </head>
@@ -460,20 +482,44 @@ button,.chip,.nav-btn,.fab,.report-btn{-webkit-tap-highlight-color:transparent;t
           </div>
         </section>
         <section class="card pwa-card">
-          <div class="section-head"><div><h2>Aplicativo & backup</h2><p>Instale no celular e proteja seus dados locais</p></div></div>
-          <div class="pwa-status">
-            <div class="pwa-status-icon"><span class="ui-icon"><svg viewBox="0 0 24 24"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10 18.5h4"/></svg></span></div>
-            <div><strong id="pwaStatusTitle">Life OS pronto para instalar</strong><p id="pwaStatusText">Abra esta versão por um endereço HTTPS para instalar como aplicativo.</p></div>
-          </div>
-          <div class="pwa-actions">
-            <button type="button" class="primary" id="installPwaBtn">Instalar app</button>
-            <button type="button" class="secondary" id="exportBackupBtn">Exportar backup</button>
-            <button type="button" class="secondary full-row" id="importFinancialPlanBtn">Importar meu planejamento financeiro</button>
-            <button type="button" class="secondary full-row" id="importBackupBtn">Importar backup completo</button>
+          <div class="section-head"><div><h2>Aplicativo & backup</h2><p>Instale o Life OS no celular e mantenha seus dados protegidos.</p></div></div>
+          <div class="pwa-stack">
+            <div class="pwa-panel">
+              <div class="pwa-panel-head">
+                <div class="pwa-panel-icon"><span class="ui-icon"><svg viewBox="0 0 24 24"><rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M10 18.5h4"/></svg></span></div>
+                <div class="pwa-panel-copy"><strong id="pwaStatusTitle">Instale o Life OS</strong><p id="pwaStatusText">Abra pelo Safari e adicione à Tela de Início para usar como aplicativo.</p></div>
+              </div>
+              <button type="button" class="primary pwa-install-action" id="installPwaBtn">Adicionar à Tela de Início</button>
+              <button type="button" class="text-btn pwa-help-btn" id="pwaInstallHelpBtn">Ver passo a passo</button>
+            </div>
+
+            <div class="pwa-panel">
+              <div class="pwa-panel-head">
+                <div class="pwa-panel-icon backup"><span class="ui-icon"><svg viewBox="0 0 24 24"><path d="M7 18h10a4 4 0 0 0 .7-7.9A6 6 0 0 0 6.4 8.4 4.5 4.5 0 0 0 7 18Z"/><path d="M12 10v7M9.5 12.5 12 10l2.5 2.5"/></svg></span></div>
+                <div class="pwa-panel-copy"><strong>Backup dos dados</strong><p>Salve uma cópia dos seus registros e restaure quando precisar.</p></div>
+              </div>
+              <div class="pwa-action-row">
+                <button type="button" class="secondary" id="exportBackupBtn">Exportar backup</button>
+                <button type="button" class="secondary" id="importBackupBtn">Importar backup</button>
+              </div>
+              <div class="pwa-meta" id="lastBackupStatus">Último backup: ainda não realizado</div>
+            </div>
+
+            <div class="pwa-panel">
+              <div class="pwa-panel-head">
+                <div class="pwa-panel-icon finance"><span class="ui-icon"><svg viewBox="0 0 24 24"><path d="M4 19V5M4 19h16"/><path d="m8 15 3-3 3 2 4-5"/></svg></span></div>
+                <div class="pwa-panel-copy"><strong>Planejamento financeiro</strong><p>Importe sua configuração inicial de renda, metas, reserva e orçamento.</p></div>
+              </div>
+              <div class="pwa-file-box">
+                <button type="button" class="secondary" id="selectFinancialPlanBtn">Selecionar arquivo</button>
+                <div class="pwa-file-copy"><strong id="financialPlanFileName">Nenhum arquivo selecionado</strong><small id="financialPlanFileHint">Escolha o arquivo .json do seu planejamento</small></div>
+              </div>
+              <button type="button" class="primary pwa-plan-import" id="importFinancialPlanBtn" disabled>Importar planejamento</button>
+              <div class="pwa-plan-state" id="financialPlanState">Nenhum planejamento financeiro importado neste dispositivo.</div>
+            </div>
           </div>
           <input type="file" id="financialPlanImportInput" accept="application/json,.json" />
           <input type="file" id="backupImportInput" accept="application/json,.json" />
-          <div class="pwa-tip" id="pwaInstallTip">No iPhone: abra pelo Safari, toque em Compartilhar e escolha “Adicionar à Tela de Início”.</div>
         </section>
         <section class="card"><div class="section-head"><div><h2>Nota rápida</h2><p>Ideia, aprendizado ou registro do dia</p></div></div><textarea id="dailyNote" placeholder="O que aconteceu hoje?"></textarea><button class="primary full note-btn" id="saveNoteBtn">Salvar nota do dia</button></section>
       </div>
@@ -931,28 +977,58 @@ function downloadXlsx(sheets,filename){try{const bytes=buildXlsxBytes(sheets),bl
 function exportLifeReport(kind){const period=reportPeriodValue(),stamp=localDateKey().replaceAll('-','');if(kind==='finance')return downloadXlsx(financialReportSheets(period),`LifeOS_Financeiro_${stamp}.xlsx`);if(kind==='health')return downloadXlsx(healthReportSheets(period),`LifeOS_Saude_${stamp}.xlsx`);if(kind==='tasks')return downloadXlsx(tasksReportSheets(period),`LifeOS_Tarefas_${stamp}.xlsx`);return downloadXlsx([...financialReportSheets(period),...healthReportSheets(period),...tasksReportSheets(period)],`LifeOS_Completo_${stamp}.xlsx`)}
 
 
-// ===== PWA, instalação, plano pessoal e backup local · V1.0.20 =====
+// ===== PWA, instalação, plano pessoal e backup local · V1.0.21 =====
 let deferredInstallPrompt=null;
+let selectedFinancialPlanFile=null;
+const LAST_BACKUP_KEY=KEY+'-last-backup';
 function isStandaloneMode(){return window.matchMedia?.('(display-mode: standalone)').matches||window.navigator.standalone===true}
 function isIOSDevice(){return /iphone|ipad|ipod/i.test(navigator.userAgent)}
+function showPwaInstallHelp(){
+  const ios=isIOSDevice();
+  const html=ios
+    ?`<div style="display:grid;gap:10px;font-size:12px;color:var(--muted);line-height:1.5"><div><strong style="color:var(--text)">1. Abra o Life OS no Safari</strong></div><div><strong style="color:var(--text)">2. Toque em Compartilhar</strong><br>Use o ícone de quadrado com seta para cima.</div><div><strong style="color:var(--text)">3. Escolha “Adicionar à Tela de Início”</strong></div><div><strong style="color:var(--text)">4. Toque em Adicionar</strong><br>Depois abra pelo novo ícone do Life OS.</div></div>`
+    :`<div style="font-size:12px;color:var(--muted);line-height:1.55"><p>Use o botão <strong style="color:var(--text)">Instalar aplicativo</strong> quando ele aparecer. Se não aparecer, abra o menu do navegador e procure a opção de instalar/adicionar à tela inicial.</p></div>`;
+  openModal('Instalar Life OS','APLICATIVO',html,()=>true,'Entendi');
+}
 function updatePwaStatus(){
-  const title=el('pwaStatusTitle'),text=el('pwaStatusText'),tip=el('pwaInstallTip'),btn=el('installPwaBtn');if(!title)return;
-  if(isStandaloneMode()){title.textContent='Life OS instalado';text.textContent='Você está usando o Life OS como aplicativo. Seus dados continuam salvos neste dispositivo.';if(tip)tip.textContent='Faça backups periódicos para poder restaurar seus dados caso troque de aparelho.';if(btn){btn.textContent='App instalado';btn.disabled=true;btn.style.opacity='.6'};return}
-  if(location.protocol==='file:'){title.textContent='Abra a versão hospedada no celular';text.textContent='Arquivos HTML locais podem abrir apenas como visualização no iPhone. A versão PWA precisa ser acessada por HTTPS.';if(btn){btn.textContent='Precisa de HTTPS';btn.disabled=true;btn.style.opacity='.6'};return}
-  title.textContent='Life OS pronto para instalar';text.textContent=isIOSDevice()?'No iPhone, a instalação é feita pelo menu Compartilhar do Safari.':'Você pode instalar o Life OS e abrir pela tela inicial como um aplicativo.';
-  if(btn){btn.disabled=false;btn.style.opacity='1';btn.textContent=isIOSDevice()?'Como instalar':'Instalar app'}
-  if(tip)tip.textContent=isIOSDevice()?'Safari → Compartilhar → Adicionar à Tela de Início. Depois abra pelo novo ícone do Life OS.':'Se o botão de instalação não aparecer, use o menu do navegador e escolha Instalar aplicativo.';
+  const title=el('pwaStatusTitle'),text=el('pwaStatusText'),btn=el('installPwaBtn'),help=el('pwaInstallHelpBtn');if(!title)return;
+  if(isStandaloneMode()){title.textContent='Life OS instalado';text.textContent='Você está usando o Life OS como aplicativo. Seus dados continuam salvos neste dispositivo.';if(btn){btn.textContent='App instalado';btn.disabled=true;btn.style.opacity='.58'};if(help)help.style.display='none';return}
+  if(location.protocol==='file:'){title.textContent='Abra a versão hospedada';text.textContent='A instalação no celular precisa ser feita pela versão publicada em HTTPS.';if(btn){btn.textContent='Precisa de HTTPS';btn.disabled=true;btn.style.opacity='.58'};if(help)help.style.display='none';return}
+  title.textContent='Instale o Life OS';text.textContent=isIOSDevice()?'Abra pelo Safari e adicione à Tela de Início para usar como aplicativo.':'Instale o Life OS para abrir direto pela tela inicial.';
+  if(btn){btn.disabled=false;btn.style.opacity='1';btn.textContent=isIOSDevice()?'Adicionar à Tela de Início':'Instalar Life OS'}
+  if(help)help.style.display='block';
+}
+function updateBackupStatus(){
+  const box=el('lastBackupStatus');if(!box)return;
+  const raw=localStorage.getItem(LAST_BACKUP_KEY);
+  if(!raw){box.textContent='Último backup: ainda não realizado';box.classList.remove('success');return}
+  const d=new Date(raw);
+  if(Number.isNaN(d.getTime())){box.textContent='Último backup: realizado anteriormente';box.classList.add('success');return}
+  box.textContent='Último backup: '+d.toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});box.classList.add('success');
+}
+function updateFinancialPlanStatus(){
+  const box=el('financialPlanState');if(!box)return;
+  const active=!!(state?.migrations?.personalFinanceV1020||state?.migrations?.financePlanV1017);
+  if(active){box.textContent='✓ Planejamento financeiro ativo neste dispositivo.';box.classList.add('success')}
+  else{box.textContent='Nenhum planejamento financeiro importado neste dispositivo.';box.classList.remove('success')}
+}
+function clearSelectedFinancialPlan(){
+  selectedFinancialPlanFile=null;
+  if(el('financialPlanImportInput'))el('financialPlanImportInput').value='';
+  if(el('financialPlanFileName'))el('financialPlanFileName').textContent='Nenhum arquivo selecionado';
+  if(el('financialPlanFileHint'))el('financialPlanFileHint').textContent='Escolha o arquivo .json do seu planejamento';
+  if(el('importFinancialPlanBtn'))el('importFinancialPlanBtn').disabled=true;
 }
 window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();deferredInstallPrompt=e;updatePwaStatus()});
 window.addEventListener('appinstalled',()=>{deferredInstallPrompt=null;updatePwaStatus();toast('Life OS instalado')});
 async function requestPwaInstall(){
   if(isStandaloneMode())return;
-  if(isIOSDevice()){toast('No Safari: Compartilhar → Adicionar à Tela de Início');return}
+  if(isIOSDevice()){showPwaInstallHelp();return}
   if(deferredInstallPrompt){deferredInstallPrompt.prompt();try{await deferredInstallPrompt.userChoice}catch{}deferredInstallPrompt=null;updatePwaStatus();return}
-  toast('Use o menu do navegador e escolha Instalar aplicativo')
+  showPwaInstallHelp();
 }
 function downloadJson(data,filename){const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),2500)}
-function exportLifeBackup(){const stamp=localDateKey().replaceAll('-','');downloadJson({app:'Life OS',version:'1.0.20',exportedAt:new Date().toISOString(),storageKey:KEY,state},`LifeOS_Backup_${stamp}.json`);toast('Backup gerado')}
+function exportLifeBackup(){const stamp=localDateKey().replaceAll('-',''),now=new Date();downloadJson({app:'Life OS',version:'1.0.21',exportedAt:now.toISOString(),storageKey:KEY,state},`LifeOS_Backup_${stamp}.json`);localStorage.setItem(LAST_BACKUP_KEY,now.toISOString());updateBackupStatus();toast('Backup gerado')}
 function mergeFinancialPlan(incoming){
   if(!incoming||typeof incoming!=='object'||Array.isArray(incoming))throw new Error('invalid');
   const next=structuredClone(state);
@@ -968,7 +1044,7 @@ function mergeFinancialPlan(incoming){
   localStorage.setItem(KEY,JSON.stringify(next));
   state=load();render();
 }
-function importFinancialPlanFile(file){if(!file)return;const reader=new FileReader();reader.onload=()=>{try{const raw=JSON.parse(String(reader.result||''));if(raw?.type!=='personal-finance-plan'&&raw?.type!=='personal-plan-preset')throw new Error('wrong-type');const incoming=raw&&raw.state?raw.state:raw;if(!confirm('Aplicar seu planejamento financeiro neste dispositivo? Tarefas, saúde, treinos e registros existentes serão preservados.'))return;mergeFinancialPlan(incoming);toast('Planejamento financeiro aplicado')}catch(err){console.error(err);toast('Arquivo de planejamento inválido')}};reader.readAsText(file)}
+function importFinancialPlanFile(file){if(!file)return;const reader=new FileReader();reader.onload=()=>{try{const raw=JSON.parse(String(reader.result||''));if(raw?.type!=='personal-finance-plan'&&raw?.type!=='personal-plan-preset')throw new Error('wrong-type');const incoming=raw&&raw.state?raw.state:raw;if(!confirm('Aplicar seu planejamento financeiro neste dispositivo? Tarefas, saúde, treinos e registros existentes serão preservados.'))return;mergeFinancialPlan(incoming);clearSelectedFinancialPlan();updateFinancialPlanStatus();toast('Planejamento financeiro aplicado')}catch(err){console.error(err);toast('Arquivo de planejamento inválido')}};reader.readAsText(file)}
 function importLifeBackupFile(file){if(!file)return;const reader=new FileReader();reader.onload=()=>{try{const raw=JSON.parse(String(reader.result||'')),incoming=raw&&raw.state?raw.state:raw;if(!incoming||typeof incoming!=='object'||Array.isArray(incoming))throw new Error('invalid');if(!confirm('Importar este backup e substituir os dados atuais deste dispositivo?'))return;localStorage.setItem(KEY,JSON.stringify(incoming));state=load();render();toast('Backup importado com sucesso')}catch(err){console.error(err);toast('Arquivo de backup inválido')}};reader.readAsText(file)}
 if('serviceWorker' in navigator&&location.protocol!=='file:'){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(err=>console.warn('Service Worker:',err)))}
 
@@ -1045,10 +1121,21 @@ el('startWorkoutBtn').onclick=()=>startWorkoutSession('w3');el('saveNoteBtn').on
 el('fab').onclick=()=>openModal('Captura rápida','ADICIONAR',`<div class="grid-2"><button type="button" class="chip" id="fabWater">${appIcon('water','sm')} Água</button><button type="button" class="chip" id="fabExpense">${appIcon('expense','sm')} Gasto</button><button type="button" class="chip" id="fabGoal">${appIcon('target','sm')} Meta</button><button type="button" class="chip" id="fabWorkout">${appIcon('workout','sm')} Treino</button><button type="button" class="chip" id="fabTask">${appIcon('note','sm')} Tarefa</button><button type="button" class="chip" id="fabMeal">${appIcon('food','sm')} Refeição</button></div><p style="font-size:11px;color:var(--muted)">Escolha uma ação rápida.</p>`,()=>false);
 document.addEventListener('click',e=>{const btn=e.target.closest('#fabWater,#fabExpense,#fabGoal,#fabWorkout,#fabTask,#fabMeal');if(!btn)return;if(btn.id==='fabWater'){closeModal();el('customWaterBtn').click()}if(btn.id==='fabExpense'){closeModal();transactionModal('expense')}if(btn.id==='fabGoal'){closeModal();el('addGoalBtn').click()}if(btn.id==='fabWorkout'){closeModal();el('newWorkoutBtn').click()}if(btn.id==='fabTask'){closeModal();openTaskModal()}if(btn.id==='fabMeal'){closeModal();openMealModal()}});
 el('exportFinanceReportBtn').onclick=()=>exportLifeReport('finance');el('exportHealthReportBtn').onclick=()=>exportLifeReport('health');el('exportTasksReportBtn').onclick=()=>exportLifeReport('tasks');el('exportFullReportBtn').onclick=()=>exportLifeReport('full');
-el('installPwaBtn').onclick=()=>requestPwaInstall();el('exportBackupBtn').onclick=()=>exportLifeBackup();el('importFinancialPlanBtn').onclick=()=>el('financialPlanImportInput').click();el('financialPlanImportInput').onchange=e=>{const f=e.target.files?.[0];importFinancialPlanFile(f);e.target.value=''};el('importBackupBtn').onclick=()=>el('backupImportInput').click();el('backupImportInput').onchange=e=>{const f=e.target.files?.[0];importLifeBackupFile(f);e.target.value=''};
+el('installPwaBtn').onclick=()=>requestPwaInstall();
+el('pwaInstallHelpBtn').onclick=()=>showPwaInstallHelp();
+el('exportBackupBtn').onclick=()=>exportLifeBackup();
+el('importBackupBtn').onclick=()=>el('backupImportInput').click();
+el('backupImportInput').onchange=e=>{const f=e.target.files?.[0];importLifeBackupFile(f);e.target.value=''};
+el('selectFinancialPlanBtn').onclick=()=>el('financialPlanImportInput').click();
+el('financialPlanImportInput').onchange=e=>{
+  const f=e.target.files?.[0]||null;selectedFinancialPlanFile=f;
+  if(!f){clearSelectedFinancialPlan();return}
+  el('financialPlanFileName').textContent=f.name;el('financialPlanFileHint').textContent='Arquivo pronto para importar';el('importFinancialPlanBtn').disabled=false;
+};
+el('importFinancialPlanBtn').onclick=()=>importFinancialPlanFile(selectedFinancialPlanFile);
 el('resetBtn').onclick=()=>{if(confirm('Apagar todos os dados locais e recomeçar?')){localStorage.removeItem(KEY);state=structuredClone(defaultState);save();toast('Dados reiniciados')}};
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]))}
-render();updatePwaStatus();
+render();updatePwaStatus();updateBackupStatus();updateFinancialPlanStatus();
 </script>
 </body>
 </html>
