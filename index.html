@@ -210,6 +210,158 @@ button,.chip,.nav-btn,.fab,.report-btn{-webkit-tap-highlight-color:transparent;t
 @media(max-width:390px){.training-week-grid{grid-template-columns:repeat(5,minmax(52px,1fr));overflow-x:auto;padding-bottom:2px}}
 @media(max-width:360px){.pwa-action-row{grid-template-columns:minmax(0,1fr)}.pwa-file-box{grid-template-columns:minmax(0,1fr)}.pwa-file-box .secondary{width:100%}}
 
+
+/* =========================================================
+   V1.0.25 · Professional mobile UI pass
+   - hierarquia tipográfica mais limpa
+   - menos cartões gigantes e menos rolagem
+   - títulos sem quebras artificiais
+   - plano semanal em timeline legível
+   - finanças/metas/relatórios mais compactos
+   ========================================================= */
+:root{
+  --bg:#f4f7fb;
+  --surface:#ffffff;
+  --text:#121826;
+  --muted:#778196;
+  --line:#e7ecf3;
+  --shadow:0 8px 24px rgba(31,48,78,.075);
+  --shadow-soft:0 3px 12px rgba(31,48,78,.055);
+  --radius-lg:20px;
+  --radius-md:15px;
+}
+html,body{background:#edf2f8}
+body{font-weight:450;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased}
+.app-shell{background:var(--bg)}
+.home-hero,.page-hero{padding-left:18px;padding-right:18px;padding-bottom:66px;border-radius:0 0 28px 28px}
+.content{padding-left:14px;padding-right:14px;margin-top:-48px}
+.content.normal{padding-left:14px;padding-right:14px}
+.card,.finance-hero-card,.goal-card,.life-card{border-color:var(--line);box-shadow:var(--shadow);border-radius:var(--radius-lg)}
+.card{padding:15px;margin-bottom:13px}
+
+/* Tipografia */
+.greeting h1,.page-hero h1{font-size:25px;line-height:1.08;letter-spacing:-.025em;text-wrap:balance;overflow-wrap:normal;word-break:normal;hyphens:none}
+.greeting p,.page-hero p{font-size:12px;line-height:1.35}
+.hero-kicker,.greeting small{font-size:10px;letter-spacing:.10em;text-transform:uppercase;font-weight:850}
+.section-head{margin:0 0 11px;align-items:flex-start}
+.section-head h2{font-size:17px;line-height:1.15;letter-spacing:-.018em;text-wrap:balance;overflow-wrap:normal!important;word-break:normal!important;hyphens:none}
+.section-head p{font-size:10.5px;line-height:1.4;max-width:290px;text-wrap:pretty;overflow-wrap:normal!important;word-break:normal!important}
+.eyebrow{font-size:9px;letter-spacing:.12em}
+.card h2,.card h3,.goal-card h3,.personal-plan-head h2,.spending-control-head h2,.golden-card h2,.planner-card h2,.life-card h2{overflow-wrap:normal;word-break:normal;hyphens:none;text-wrap:balance}
+p,small{overflow-wrap:normal;word-break:normal;hyphens:none}
+.focus-label,.focus-block h3,.focus-block p{overflow-wrap:normal!important;word-break:normal!important;hyphens:none!important}
+.primary,.secondary,.chip,.text-btn,.seg-btn,.nav-btn{white-space:nowrap}
+.primary,.secondary{min-height:42px;border-radius:12px;padding:10px 13px;font-size:12px}
+.text-btn{font-size:11px}
+.chip{font-size:10.5px;padding:7px 9px;border-radius:10px}
+.pill{font-size:10px;padding:5px 8px}
+
+/* Home */
+.home-dashboard{gap:13px}
+.home-summary{padding:16px 17px}
+.home-summary h2{font-size:13px;margin-bottom:7px}
+.summary-score{font-size:36px;letter-spacing:-.035em}
+.summary-card p{font-size:10.5px;margin-top:7px}
+.ring{width:70px;height:70px}.ring:after{width:52px;height:52px}.ring span{font-size:11px}
+.home-priority{padding:14px 15px;gap:10px}
+.home-priority-top{grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center}
+.home-priority-top .text-btn{grid-column:auto!important;justify-self:end!important;padding:6px!important}
+.home-priority-copy h3{font-size:15px;line-height:1.15;margin:4px 0 3px}
+.home-priority-copy p{font-size:10.5px!important;line-height:1.35}
+.home-priority-check{padding:9px 11px;font-size:10.5px;border-radius:12px}
+.priority-icon,.feature-icon,.category-icon{width:38px;height:38px;border-radius:12px}
+.home-focus-board{padding:15px}
+.home-focus-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.focus-block{min-height:156px;padding:12px;border-radius:16px;box-shadow:var(--shadow-soft)}
+.focus-top{gap:6px}.focus-title{gap:8px}
+.focus-title .feature-icon{width:34px;height:34px;border-radius:11px}
+.focus-label{font-size:12px;line-height:1.15}
+.focus-value{font-size:25px;margin-top:11px}
+.focus-value small{font-size:10px}
+.focus-block p{font-size:9.5px;line-height:1.35;margin-top:5px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.focus-block .progress{height:6px;margin:9px 0}
+.home-quick-actions{padding-top:8px;gap:5px}.home-quick-actions .chip{padding:7px 8px;min-width:0}
+.focus-btn-wrap{padding-top:10px}.focus-btn-wrap .primary,.focus-btn-wrap .secondary{font-size:10.5px;padding-left:8px;padding-right:8px}
+.focus-block.goals #goalMiniList{gap:7px;margin-top:9px}.focus-block.goals .mini-goal{font-size:9.5px}.focus-block.goals .mini-goal strong{font-size:10.5px}
+.home-task-card,.home-habits-card{padding:15px}
+.habit-item{padding:9px 10px;border-radius:12px}.habit-item label{font-size:11.5px}
+.task-empty{padding:12px;font-size:10.5px}.task-title{font-size:11.5px}.task-meta{font-size:9px}
+
+/* Saúde */
+.stats-grid{gap:9px}.stat{padding:12px;border-radius:15px;box-shadow:var(--shadow-soft);min-height:104px;display:flex;flex-direction:column;justify-content:center}.stat strong{font-size:18px;margin:6px 0 2px}.stat small{font-size:10px;line-height:1.25}
+.water-hero{gap:12px}.water-number{font-size:28px}.water-ring{width:78px;height:78px}
+.training-plan-card{padding:15px}
+.training-plan-hero{padding:12px 13px;border-radius:14px;gap:5px}.training-plan-hero strong{font-size:14px;line-height:1.25}.training-plan-hero p{font-size:9.5px;line-height:1.4}
+.training-week-grid{display:grid!important;grid-template-columns:1fr!important;gap:6px!important;overflow:visible!important;margin-top:10px}
+.training-day{display:grid!important;grid-template-columns:42px minmax(0,1fr) auto;align-items:center;gap:10px;text-align:left!important;padding:9px 11px!important;border-radius:12px!important;min-width:0!important}
+.training-day strong{display:grid!important;place-items:center;width:36px;height:28px;border-radius:9px;background:rgba(23,105,245,.08);font-size:9px!important;color:#526176!important}
+.training-day.sport strong{background:rgba(40,180,156,.11)}
+.training-day span{margin:0!important;font-size:11.5px!important;line-height:1.2!important;white-space:nowrap!important;overflow:hidden;text-overflow:ellipsis}
+.training-day small{margin:0!important;font-size:9px!important;white-space:nowrap;color:var(--muted)}
+.training-phase{padding:10px 11px;border-radius:12px}.training-phase strong{font-size:10.5px}.training-phase p,.training-plan-note{font-size:9px;line-height:1.45}
+.nutrition-profile,.nutrition-card{padding:15px}
+.profile-placeholder{padding:12px;font-size:10.5px;line-height:1.45}
+.nutrition-summary{grid-template-columns:82px minmax(0,1fr);gap:11px}.nutrition-ring{width:78px;height:78px}.nutrition-ring:after{width:58px;height:58px}.nutrition-ring-inner strong{font-size:16px}
+.nutrition-kpis{gap:7px}.nutrition-kpi{padding:9px;border-radius:12px}.nutrition-kpi strong{font-size:13px}.nutrition-kpi small{font-size:8.5px}
+.macro-row{gap:6px;margin-top:10px}.macro-box{padding:8px 5px}.macro-box strong{font-size:11.5px}.macro-box small{font-size:8.5px}
+.template{padding:10px 11px;border-radius:13px}.template strong{font-size:11.5px;line-height:1.25}.template .meta{font-size:9.5px;line-height:1.35;max-width:245px}.template .primary{min-width:70px;padding-left:10px;padding-right:10px}
+.form-grid{gap:8px}.field,.modal-field{font-size:10px}.field input,.modal-field input,.modal-field select,textarea{padding:10px 11px;border-radius:11px}
+
+/* Finanças */
+.finance-hero-card{padding:15px;margin-bottom:12px}.balance-value{font-size:28px}.money-summary{gap:8px;margin-top:12px}.money-box{padding:10px}.money-box strong{font-size:14px}
+.personal-plan-card{padding:15px}.personal-plan-head h2{font-size:16px;line-height:1.15}.personal-plan-head p{font-size:9.5px}.plan-badge{font-size:8.5px}
+.plan-kpis{gap:8px;margin-top:12px}.plan-kpi{padding:10px;border-radius:13px}.plan-kpi small{font-size:8px}.plan-kpi strong{font-size:14px;line-height:1.15}.plan-kpi span{font-size:8.5px;line-height:1.3}
+.plan-banner{padding:11px;border-radius:13px}.plan-banner strong{font-size:11.5px}.plan-banner p{font-size:9px;line-height:1.4}
+.plan-account-list{margin-top:9px}.plan-milestones{margin-top:9px}.plan-milestone{gap:7px;padding-top:7px}.plan-milestone strong{font-size:10px}.plan-milestone small,.plan-milestone>span:last-child{font-size:8.5px}
+.spending-control-head h2{font-size:16px}.spending-control-head p{font-size:9.5px}.budget-empty{font-size:10px;padding:12px}
+.donut-wrap{grid-template-columns:118px minmax(0,1fr);gap:10px}.donut{width:112px;height:112px}.donut:after{width:74px;height:74px}.donut-center strong{font-size:14px}
+.golden-card{padding:15px}.golden-card h2{font-size:17px}.golden-card p{font-size:9.5px}.golden-total strong{font-size:20px}
+.rule-split{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.rule-box{padding:10px;border-radius:14px}.rule-box.needs{grid-column:1/-1}.rule-box .rule-icon{width:30px;height:30px}.rule-box .rule-pct{font-size:13px}.rule-box h3{font-size:10.5px;margin:8px 0 3px}.rule-box .rule-value{font-size:15px}.rule-box p{font-size:8.5px;line-height:1.35;margin-top:5px}.rule-detail{font-size:8.5px;margin-top:7px;padding-top:7px}
+.golden-safety{padding:11px;border-radius:14px}.golden-safety h3{font-size:11.5px}.golden-safety p{font-size:9px}
+.goal-plan-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.goal-plan-col{padding:10px;border-radius:14px}.goal-plan-col h3{font-size:10.5px}.goal-plan-item{font-size:8.5px;padding:7px}
+.planner-metrics{gap:8px}.planner-metric{padding:10px;border-radius:13px}.allocation-card,.planner-goal,.planner-progress-card{border-radius:14px}
+
+/* Metas */
+.goal-dashboard{gap:11px}.goal-stat{padding:14px;border-radius:18px}.goal-ring-wrap{gap:12px}.goal-ring-copy strong{font-size:15px}.goal-ring-copy p{font-size:10px!important}.goal-ring-copy small{font-size:9.5px}.goal-ring-lg{width:78px;height:78px}.goal-ring-lg:after{width:58px;height:58px}.goal-ring-lg strong{font-size:15px}
+.goal-kpis{gap:8px}.goal-kpi{padding:11px 12px;border-radius:14px}.goal-kpi small{font-size:9.5px}.goal-kpi strong{font-size:18px}
+.goal-chart-list{gap:8px}.goal-chart-row{padding:10px 11px;border-radius:14px}.goal-chart-main strong{font-size:11.5px}.goal-chart-main small{font-size:9.5px}.goal-bar{height:7px;margin-top:7px}.goal-chart-side strong{font-size:12px}.goal-stage{font-size:8.5px;padding:3px 7px}
+.goal-highlight-list{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.goal-highlight{padding:11px;border-radius:15px;box-shadow:var(--shadow-soft)}.goal-highlight:nth-child(3){grid-column:1/-1}.goal-highlight .icon{width:31px;height:31px;margin-bottom:7px}.goal-highlight small{font-size:9px}.goal-highlight strong{font-size:11px}.goal-highlight .value{font-size:18px;margin-top:7px}
+.goal-card{padding:12px 13px;border-radius:16px;box-shadow:var(--shadow-soft)}.goal-card h3{font-size:13px}.goal-card small{font-size:9.5px}.goal-percentage{width:42px;height:42px;font-size:11px}
+
+/* Minha Vida / relatórios / backup */
+.life-card{padding:15px;border-radius:18px}.life-score .score{font-size:38px}.summary-lines{gap:5px;margin-top:10px}.summary-lines div{padding:9px 0;font-size:10.5px}
+.report-card{padding:15px}.report-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.report-btn{padding:10px;border-radius:13px;gap:7px;min-width:0}.report-btn .report-icon{width:32px;height:32px;border-radius:10px}.report-btn strong{font-size:10.5px}.report-btn small{font-size:8.5px;line-height:1.25;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.report-btn.complete{grid-column:1/-1}
+.pwa-card{padding:15px}.pwa-stack{gap:9px}.pwa-panel{padding:12px;border-radius:15px}.pwa-panel-head{gap:10px}.pwa-panel-icon{width:38px;height:38px;border-radius:12px}.pwa-panel-copy strong{font-size:12px}.pwa-panel-copy p{font-size:9.5px;line-height:1.4}.pwa-action-row{gap:7px}.pwa-file-box{grid-template-columns:1fr!important;gap:7px;padding:8px}.pwa-file-box .secondary{width:100%;white-space:nowrap}.pwa-file-copy strong,.pwa-file-copy small{white-space:normal;overflow:visible;text-overflow:clip;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2}.pwa-file-copy strong{font-size:9.5px}.pwa-file-copy small{font-size:8.5px}.pwa-plan-state,.pwa-meta{font-size:8.5px}
+
+/* Navegação e interação */
+.bottom-nav{padding-top:6px;background:rgba(255,255,255,.96);box-shadow:0 -6px 22px rgba(35,55,90,.055)}
+.nav-btn{min-height:54px;gap:3px}.nav-btn small{font-size:9px}.nav-btn .ui-icon svg{width:19px;height:19px}
+.fab{width:48px;height:48px;border-radius:15px;right:14px!important;bottom:82px;font-size:24px;box-shadow:0 9px 22px rgba(244,165,36,.30)}
+.modal-card{border-radius:20px;padding:15px}.modal-head h2{font-size:17px}.modal-actions .primary,.modal-actions .secondary{min-width:92px}
+
+@media(max-width:430px){
+  .content,.content.normal{padding-left:12px;padding-right:12px}
+  .card{padding:14px}
+  .home-focus-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .home-priority-top{grid-template-columns:auto minmax(0,1fr) auto!important}
+  .home-priority-top .text-btn{grid-column:auto!important;justify-self:end!important}
+  .report-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .report-btn.complete{grid-column:1/-1!important}
+  .goal-plan-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .rule-split{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .rule-box.needs{grid-column:1/-1}
+  .pwa-action-row{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .pwa-file-box{grid-template-columns:1fr!important}
+}
+@media(max-width:365px){
+  .home-focus-grid,.goal-plan-grid,.report-grid{grid-template-columns:1fr!important}
+  .report-btn.complete,.goal-highlight:nth-child(3){grid-column:auto!important}
+  .goal-highlight-list{grid-template-columns:1fr}
+  .rule-split{grid-template-columns:1fr!important}.rule-box.needs{grid-column:auto}
+  .pwa-action-row{grid-template-columns:1fr!important}
+  .home-priority-top{grid-template-columns:auto minmax(0,1fr)!important}.home-priority-top .text-btn{grid-column:2!important;justify-self:start!important;padding-left:0!important}
+}
+
 </style>
 </head>
 <body>
@@ -1093,9 +1245,9 @@ function updateBackupStatus(){
 }
 function updateFinancialPlanStatus(){
   const box=el('financialPlanState');if(!box)return;
-  const active=!!(state?.migrations?.personalFinanceV1020||state?.migrations?.financePlanV1017);
+  const fp=state?.financialProfile||{},gr=state?.goldenRule||{};const active=!!(state?.migrations?.personalFinanceV1020&&(Number(fp.monthlyResources)>0||Number(fp.currentAssets)>0||Number(gr.cashIncome)>0||Number(gr.benefits)>0));
   if(active){box.textContent='✓ Planejamento financeiro ativo neste dispositivo.';box.classList.add('success')}
-  else{box.textContent='Nenhum planejamento financeiro importado neste dispositivo.';box.classList.remove('success')}
+  else{box.textContent='Planejamento financeiro ainda não carregado neste dispositivo.';box.classList.remove('success')}
 }
 function clearSelectedFinancialPlan(){
   selectedFinancialPlanFile=null;
@@ -1130,7 +1282,7 @@ async function requestPwaInstall(){
   showPwaInstallHelp();
 }
 function downloadJson(data,filename){const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),2500)}
-function exportLifeBackup(){const stamp=localDateKey().replaceAll('-',''),now=new Date();downloadJson({app:'Life OS',version:'1.0.24',exportedAt:now.toISOString(),storageKey:KEY,state},`LifeOS_Backup_${stamp}.json`);localStorage.setItem(LAST_BACKUP_KEY,now.toISOString());updateBackupStatus();toast('Backup gerado')}
+function exportLifeBackup(){const stamp=localDateKey().replaceAll('-',''),now=new Date();downloadJson({app:'Life OS',version:'1.0.25',exportedAt:now.toISOString(),storageKey:KEY,state},`LifeOS_Backup_${stamp}.json`);localStorage.setItem(LAST_BACKUP_KEY,now.toISOString());updateBackupStatus();toast('Backup gerado')}
 function mergeFinancialPlan(incoming){
   if(!incoming||typeof incoming!=='object'||Array.isArray(incoming))throw new Error('invalid');
   const next=structuredClone(state);
@@ -1158,6 +1310,7 @@ function mergeHealthTrainingPlan(incoming){
     if(incoming.nutrition.mealGoal)next.nutrition.mealGoal=Number(incoming.nutrition.mealGoal)||next.nutrition.mealGoal;
   }
   if(Array.isArray(incoming.healthGoals))incoming.healthGoals.forEach(g=>{const existing=(next.goals||[]).find(x=>x.id===g.id||x.name===g.name);if(existing){existing.name=g.name||existing.name;existing.target=Number(g.target)||existing.target;existing.unit=g.unit||existing.unit}else next.goals.push(structuredClone(g))});
+  const oldTrainingGoal=(next.goals||[]).find(g=>g.id==='g2'||normalizeGoal(g.name)==='treinos no mês');if(oldTrainingGoal&&normalizeGoal(oldTrainingGoal.name)==='treinos no mês'){oldTrainingGoal.name='Musculação no mês';oldTrainingGoal.target=12;oldTrainingGoal.unit='treinos'};
   next.migrations={...(next.migrations||{}),healthTrainingV1022:true,healthTrainingV1024:true};
   localStorage.setItem(KEY,JSON.stringify(next));
   state=load();
