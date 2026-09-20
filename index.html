@@ -468,8 +468,10 @@ button,.chip,.nav-btn,.fab,.report-btn{-webkit-tap-highlight-color:transparent;t
           <div class="pwa-actions">
             <button type="button" class="primary" id="installPwaBtn">Instalar app</button>
             <button type="button" class="secondary" id="exportBackupBtn">Exportar backup</button>
-            <button type="button" class="secondary full-row" id="importBackupBtn">Importar backup</button>
+            <button type="button" class="secondary full-row" id="importFinancialPlanBtn">Importar meu planejamento financeiro</button>
+            <button type="button" class="secondary full-row" id="importBackupBtn">Importar backup completo</button>
           </div>
+          <input type="file" id="financialPlanImportInput" accept="application/json,.json" />
           <input type="file" id="backupImportInput" accept="application/json,.json" />
           <div class="pwa-tip" id="pwaInstallTip">No iPhone: abra pelo Safari, toque em Compartilhar e escolha “Adicionar à Tela de Início”.</div>
         </section>
@@ -929,7 +931,7 @@ function downloadXlsx(sheets,filename){try{const bytes=buildXlsxBytes(sheets),bl
 function exportLifeReport(kind){const period=reportPeriodValue(),stamp=localDateKey().replaceAll('-','');if(kind==='finance')return downloadXlsx(financialReportSheets(period),`LifeOS_Financeiro_${stamp}.xlsx`);if(kind==='health')return downloadXlsx(healthReportSheets(period),`LifeOS_Saude_${stamp}.xlsx`);if(kind==='tasks')return downloadXlsx(tasksReportSheets(period),`LifeOS_Tarefas_${stamp}.xlsx`);return downloadXlsx([...financialReportSheets(period),...healthReportSheets(period),...tasksReportSheets(period)],`LifeOS_Completo_${stamp}.xlsx`)}
 
 
-// ===== PWA, instalação e backup local · V1.0.18 =====
+// ===== PWA, instalação, plano pessoal e backup local · V1.0.20 =====
 let deferredInstallPrompt=null;
 function isStandaloneMode(){return window.matchMedia?.('(display-mode: standalone)').matches||window.navigator.standalone===true}
 function isIOSDevice(){return /iphone|ipad|ipod/i.test(navigator.userAgent)}
@@ -950,7 +952,23 @@ async function requestPwaInstall(){
   toast('Use o menu do navegador e escolha Instalar aplicativo')
 }
 function downloadJson(data,filename){const blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),2500)}
-function exportLifeBackup(){const stamp=localDateKey().replaceAll('-','');downloadJson({app:'Life OS',version:'1.0.18',exportedAt:new Date().toISOString(),storageKey:KEY,state},`LifeOS_Backup_${stamp}.json`);toast('Backup gerado')}
+function exportLifeBackup(){const stamp=localDateKey().replaceAll('-','');downloadJson({app:'Life OS',version:'1.0.20',exportedAt:new Date().toISOString(),storageKey:KEY,state},`LifeOS_Backup_${stamp}.json`);toast('Backup gerado')}
+function mergeFinancialPlan(incoming){
+  if(!incoming||typeof incoming!=='object'||Array.isArray(incoming))throw new Error('invalid');
+  const next=structuredClone(state);
+  if(incoming.financialProfile)next.financialProfile=structuredClone(incoming.financialProfile);
+  if(incoming.goldenRule)next.goldenRule=structuredClone(incoming.goldenRule);
+  if(incoming.financePlanner)next.financePlanner=structuredClone(incoming.financePlanner);
+  if(Array.isArray(incoming.spendingBudgets))next.spendingBudgets=structuredClone(incoming.spendingBudgets);
+  const financialSources=new Set(['golden','golden-reserve']);
+  const preserved=(next.goals||[]).filter(g=>!financialSources.has(g.source));
+  const incomingFinancial=(incoming.goals||[]).filter(g=>financialSources.has(g.source));
+  next.goals=[...preserved,...structuredClone(incomingFinancial)];
+  next.migrations={...(next.migrations||{}),financePlanV1017:true,personalFinanceV1020:true};
+  localStorage.setItem(KEY,JSON.stringify(next));
+  state=load();render();
+}
+function importFinancialPlanFile(file){if(!file)return;const reader=new FileReader();reader.onload=()=>{try{const raw=JSON.parse(String(reader.result||''));if(raw?.type!=='personal-finance-plan'&&raw?.type!=='personal-plan-preset')throw new Error('wrong-type');const incoming=raw&&raw.state?raw.state:raw;if(!confirm('Aplicar seu planejamento financeiro neste dispositivo? Tarefas, saúde, treinos e registros existentes serão preservados.'))return;mergeFinancialPlan(incoming);toast('Planejamento financeiro aplicado')}catch(err){console.error(err);toast('Arquivo de planejamento inválido')}};reader.readAsText(file)}
 function importLifeBackupFile(file){if(!file)return;const reader=new FileReader();reader.onload=()=>{try{const raw=JSON.parse(String(reader.result||'')),incoming=raw&&raw.state?raw.state:raw;if(!incoming||typeof incoming!=='object'||Array.isArray(incoming))throw new Error('invalid');if(!confirm('Importar este backup e substituir os dados atuais deste dispositivo?'))return;localStorage.setItem(KEY,JSON.stringify(incoming));state=load();render();toast('Backup importado com sucesso')}catch(err){console.error(err);toast('Arquivo de backup inválido')}};reader.readAsText(file)}
 if('serviceWorker' in navigator&&location.protocol!=='file:'){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(err=>console.warn('Service Worker:',err)))}
 
@@ -1027,7 +1045,7 @@ el('startWorkoutBtn').onclick=()=>startWorkoutSession('w3');el('saveNoteBtn').on
 el('fab').onclick=()=>openModal('Captura rápida','ADICIONAR',`<div class="grid-2"><button type="button" class="chip" id="fabWater">${appIcon('water','sm')} Água</button><button type="button" class="chip" id="fabExpense">${appIcon('expense','sm')} Gasto</button><button type="button" class="chip" id="fabGoal">${appIcon('target','sm')} Meta</button><button type="button" class="chip" id="fabWorkout">${appIcon('workout','sm')} Treino</button><button type="button" class="chip" id="fabTask">${appIcon('note','sm')} Tarefa</button><button type="button" class="chip" id="fabMeal">${appIcon('food','sm')} Refeição</button></div><p style="font-size:11px;color:var(--muted)">Escolha uma ação rápida.</p>`,()=>false);
 document.addEventListener('click',e=>{const btn=e.target.closest('#fabWater,#fabExpense,#fabGoal,#fabWorkout,#fabTask,#fabMeal');if(!btn)return;if(btn.id==='fabWater'){closeModal();el('customWaterBtn').click()}if(btn.id==='fabExpense'){closeModal();transactionModal('expense')}if(btn.id==='fabGoal'){closeModal();el('addGoalBtn').click()}if(btn.id==='fabWorkout'){closeModal();el('newWorkoutBtn').click()}if(btn.id==='fabTask'){closeModal();openTaskModal()}if(btn.id==='fabMeal'){closeModal();openMealModal()}});
 el('exportFinanceReportBtn').onclick=()=>exportLifeReport('finance');el('exportHealthReportBtn').onclick=()=>exportLifeReport('health');el('exportTasksReportBtn').onclick=()=>exportLifeReport('tasks');el('exportFullReportBtn').onclick=()=>exportLifeReport('full');
-el('installPwaBtn').onclick=()=>requestPwaInstall();el('exportBackupBtn').onclick=()=>exportLifeBackup();el('importBackupBtn').onclick=()=>el('backupImportInput').click();el('backupImportInput').onchange=e=>{const f=e.target.files?.[0];importLifeBackupFile(f);e.target.value=''};
+el('installPwaBtn').onclick=()=>requestPwaInstall();el('exportBackupBtn').onclick=()=>exportLifeBackup();el('importFinancialPlanBtn').onclick=()=>el('financialPlanImportInput').click();el('financialPlanImportInput').onchange=e=>{const f=e.target.files?.[0];importFinancialPlanFile(f);e.target.value=''};el('importBackupBtn').onclick=()=>el('backupImportInput').click();el('backupImportInput').onchange=e=>{const f=e.target.files?.[0];importLifeBackupFile(f);e.target.value=''};
 el('resetBtn').onclick=()=>{if(confirm('Apagar todos os dados locais e recomeçar?')){localStorage.removeItem(KEY);state=structuredClone(defaultState);save();toast('Dados reiniciados')}};
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]))}
 render();updatePwaStatus();
