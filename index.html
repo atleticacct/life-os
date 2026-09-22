@@ -388,6 +388,7 @@ p,small{overflow-wrap:normal;word-break:normal;hyphens:none}
 .feature-nutrition-disabled{display:none!important}
 
 /* V1.0.29 · Aba Registrar: entrada rápida e interface menos poluída */
+/* V1.0.30 · Inicial simplificada para limites específicos */
 .register-hero{padding-bottom:64px}.register-content{margin-top:-46px}.register-content .card{margin-bottom:12px}
 .register-section-head{margin:0 0 11px}.register-section-head h2{font-size:15px}.register-section-head p{font-size:9.5px;line-height:1.35}
 .register-money-card,.register-water-card,.register-limits-card{padding:14px}
@@ -398,56 +399,76 @@ p,small{overflow-wrap:normal;word-break:normal;hyphens:none}
 .register-hint{font-size:8.8px;color:#768397;text-align:center;line-height:1.4;padding:1px 14px 4px}.legacy-home-compat{display:none!important}
 @media(max-width:360px){.register-action-grid,.register-money-summary{grid-template-columns:1fr}.register-water-actions{grid-template-columns:1fr 1fr}.register-water-actions .chip:last-child{grid-column:1/-1}.quick-budget-row{grid-template-columns:36px minmax(0,1fr)}.quick-budget-value{grid-column:2;text-align:left}}
 
+
+
+/* V1.0.30 · Tela inicial focada somente nos limites por categoria */
+.home-spend-hero{padding-bottom:58px}
+.home-spend-hero .greeting h1{max-width:300px}
+.home-spend-content{margin-top:-42px;padding-left:12px;padding-right:12px}
+.home-spend-card{padding:13px;margin-bottom:10px}
+.home-spend-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:10px}
+.home-spend-head h2{margin:0;font-size:15px;line-height:1.2}
+.home-spend-head p{margin:4px 0 0;font-size:9.5px;line-height:1.4;color:var(--muted)}
+.home-spend-list{display:grid;gap:8px}
+.home-spend-item{width:100%;border:1px solid var(--line);background:#fff;border-radius:15px;padding:11px 12px;text-align:left;display:grid;grid-template-columns:38px minmax(0,1fr) auto;gap:10px;align-items:center;color:var(--text);box-shadow:0 3px 10px rgba(35,55,90,.035);transition:transform .12s ease,border-color .12s ease,box-shadow .12s ease}
+.home-spend-item:active{transform:scale(.992)}
+.home-spend-item.over{border-color:#ffd0d0;background:#fffafa}
+.home-spend-icon{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:#eef4ff;color:var(--primary)}
+.home-spend-item.over .home-spend-icon{background:#fff0f0;color:var(--expense)}
+.home-spend-copy{min-width:0}
+.home-spend-title-row{display:flex;align-items:center;gap:6px;min-width:0}
+.home-spend-title-row strong{font-size:11.5px;line-height:1.2;min-width:0}
+.home-spend-period{flex:none;border-radius:999px;padding:3px 6px;background:#f1f4f8;color:#667085;font-size:7.5px;font-weight:850;white-space:nowrap}
+.home-spend-meta{display:flex;align-items:center;gap:6px;margin-top:4px;font-size:8.3px;color:var(--muted);line-height:1.25}
+.home-spend-mini-progress{height:4px;background:#edf1f6;border-radius:999px;overflow:hidden;margin-top:7px}
+.home-spend-mini-progress>span{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,var(--primary),#5aa5ff)}
+.home-spend-item.over .home-spend-mini-progress>span{background:var(--expense)}
+.home-spend-value{text-align:right;min-width:92px}
+.home-spend-value small{display:block;font-size:7.8px;color:var(--muted);margin-bottom:2px}
+.home-spend-value strong{display:block;font-size:14px;line-height:1.1;letter-spacing:-.015em}
+.home-spend-item.over .home-spend-value strong{color:var(--expense)}
+.home-spend-tap{margin-top:4px;font-size:7.8px;color:var(--primary);font-weight:800}
+.home-spend-empty{padding:14px;border:1px dashed #dbe3ef;border-radius:14px;background:#fafcff;color:var(--muted);font-size:10px;line-height:1.45}
+.home-spend-note{font-size:8.5px;color:#7a8799;text-align:center;line-height:1.4;padding:2px 14px 3px}
+.home-only-compat{display:none!important}
+@media(max-width:360px){
+  .home-spend-item{grid-template-columns:34px minmax(0,1fr);padding:10px}
+  .home-spend-icon{width:34px;height:34px}
+  .home-spend-value{grid-column:2;text-align:left;display:flex;align-items:baseline;gap:6px;min-width:0}
+  .home-spend-value small{margin:0}
+  .home-spend-tap{display:none}
+}
+
 </style>
 </head>
 <body>
 <div class="app-shell">
   <main>
     <section class="screen active" data-screen="hoje">
-      <header class="home-hero register-hero">
+      <header class="home-hero home-spend-hero">
         <div class="hero-row">
           <div class="greeting">
-            <span class="hero-kicker">REGISTRO RÁPIDO</span>
-            <h1 id="greeting">Boa tarde, Guilherme</h1>
+            <span class="hero-kicker">SEUS LIMITES</span>
+            <h1 id="greeting">Quanto ainda posso gastar?</h1>
             <p id="todayLabel"></p>
           </div>
-          <div class="hero-actions"><button class="round-btn" id="resetBtn" title="Reiniciar dados"><span class="ui-icon"><svg viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0 2 5.5"/><path d="M20 4v7h-7"/></svg></span></button></div>
         </div>
       </header>
-      <div class="content register-content">
-        <section class="card register-money-card">
-          <div class="section-head register-section-head"><div><h2>Movimentações</h2><p>Registre somente o que aconteceu.</p></div></div>
-          <div class="register-money-summary">
-            <div class="register-money-stat expense"><small>Gastos hoje</small><strong id="expenseToday">R$ 0,00</strong></div>
-            <div class="register-money-stat income"><small>Entradas hoje</small><strong id="incomeToday">R$ 0,00</strong></div>
+      <div class="content home-spend-content">
+        <section class="card home-spend-card">
+          <div class="home-spend-head">
+            <div><h2>Gastos por categoria</h2><p>Cada item respeita o próprio período: dia, semana ou mês.</p></div>
+            <button type="button" class="text-btn" id="openFinanceFromRegister">Ver Finanças</button>
           </div>
-          <div class="register-action-grid">
-            <button type="button" class="register-action expense" id="quickExpenseBtn"><span class="register-action-icon"><span class="ui-icon"><svg viewBox="0 0 24 24"><path d="M5 7h14v12H5z"/><path d="M8 11h8M12 8v6"/></svg></span></span><span><strong>Registrar gasto</strong><small>Despesa do dia</small></span></button>
-            <button type="button" class="register-action income" id="quickIncomeBtn"><span class="register-action-icon"><span class="ui-icon"><svg viewBox="0 0 24 24"><path d="M3 7.5A2.5 2.5 0 0 1 5.5 5H18a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5.5A2.5 2.5 0 0 1 3 16.5v-9Z"/><path d="M16 12h4"/></svg></span></span><span><strong>Registrar ganho</strong><small>Receita recebida</small></span></button>
-          </div>
+          <div id="quickBudgetOverview" class="home-spend-list"></div>
         </section>
+        <div class="home-spend-note">Toque em uma categoria para registrar um gasto nela.</div>
 
-        <section class="card register-water-card">
-          <div class="register-card-row">
-            <div>
-              <div class="eyebrow">HIDRATAÇÃO</div>
-              <div class="register-water-value"><span id="waterNow">0</span><small> / <span id="waterGoal">3000</span> ml</small></div>
-              <p>Adicione a quantidade que acabou de beber.</p>
-            </div>
-            <span class="register-water-pct" id="waterPct">0%</span>
-          </div>
-          <div class="progress register-water-progress"><div id="waterBar"></div></div>
-          <div class="register-water-actions"><button class="chip water-add" data-ml="250">+250 ml</button><button class="chip water-add" data-ml="500">+500 ml</button><button class="chip" id="registerCustomWaterBtn">Outro</button></div>
-        </section>
-
-        <section class="card register-limits-card">
-          <div class="section-head register-section-head"><div><h2>Quanto ainda posso gastar?</h2><p>Resumo dos limites. Os detalhes continuam em Finanças.</p></div><button type="button" class="text-btn" id="openFinanceFromRegister">Ver detalhes</button></div>
-          <div id="quickBudgetOverview" class="quick-budget-overview"></div>
-        </section>
-
-        <div class="register-hint">Para análises, metas, históricos e configurações, use as abas específicas abaixo.</div>
-
-        <div class="legacy-home-compat" aria-hidden="true">
+        <div class="home-only-compat" aria-hidden="true">
+          <button id="resetBtn"></button>
+          <span id="expenseToday"></span><span id="incomeToday"></span>
+          <button id="quickExpenseBtn"></button><button id="quickIncomeBtn"></button>
+          <span id="waterNow"></span><span id="waterGoal"></span><span id="waterPct"></span><div id="waterBar"></div><button id="registerCustomWaterBtn"></button>
           <span id="dayScore">0</span><span id="ringText">0%</span><div id="dayRing"></div>
           <span id="priorityText"></span><input type="checkbox" id="priorityDone"><button id="editPriorityBtn"></button>
           <span id="todayWorkoutName"></span><span id="todayWorkoutMeta"></span><button id="startWorkoutBtn"></button>
@@ -713,7 +734,7 @@ p,small{overflow-wrap:normal;word-break:normal;hyphens:none}
 
   <button type="button" class="fab" id="fab"><span class="ui-icon lg"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg></span></button>
   <nav class="bottom-nav">
-    <button type="button" class="nav-btn active" data-target="hoje"><span class="nav-icon"><span class="ui-icon"><svg viewBox="0 0 24 24"><path d="M3 10.5 12 4l9 6.5"/><path d="M5 10v9h14v-9"/></svg></span></span><small>Registrar</small></button>
+    <button type="button" class="nav-btn active" data-target="hoje"><span class="nav-icon"><span class="ui-icon"><svg viewBox="0 0 24 24"><path d="M3 10.5 12 4l9 6.5"/><path d="M5 10v9h14v-9"/></svg></span></span><small>Gastos</small></button>
     <button type="button" class="nav-btn" data-target="saude"><span class="nav-icon"><span class="ui-icon"><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.6-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.4-7 10-7 10Z"/></svg></span></span><small>Saúde</small></button>
     <button type="button" class="nav-btn" data-target="financas"><span class="nav-icon"><span class="ui-icon"><svg viewBox="0 0 24 24"><path d="M3 7.5A2.5 2.5 0 0 1 5.5 5H18a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5.5A2.5 2.5 0 0 1 3 16.5v-9Z"/><path d="M16 12h4"/><circle cx="16" cy="12" r="1" fill="currentColor" stroke="none"/></svg></span></span><small>Finanças</small></button>
     <button type="button" class="nav-btn" data-target="metas"><span class="nav-icon"><span class="ui-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/></svg></span></span><small>Metas</small></button>
@@ -905,6 +926,7 @@ function dayScore(){const todaysTasks=tasksToday();const taskPct=todaysTasks.len
 
 function localDateKey(d=new Date()){return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
 function budgetPeriodLabel(period){return period==='day'?'Hoje':period==='week'?'Esta semana':'Este mês'}
+function budgetUnitLabel(period){return period==='day'?'por dia':period==='week'?'por semana':'por mês'}
 function budgetRange(period){const now=new Date();if(period==='day'){const k=localDateKey(now);return{start:k,end:k}}if(period==='week'){const day=(now.getDay()+6)%7,start=new Date(now.getFullYear(),now.getMonth(),now.getDate()-day),end=new Date(start.getFullYear(),start.getMonth(),start.getDate()+6);return{start:localDateKey(start),end:localDateKey(end)}}const start=new Date(now.getFullYear(),now.getMonth(),1),end=new Date(now.getFullYear(),now.getMonth()+1,0);return{start:localDateKey(start),end:localDateKey(end)}}
 function budgetSpent(b){const range=budgetRange(b.period);return (state.transactions||[]).filter(t=>t.type==='expense'&&String(t.category||'').trim()===b.category&&t.date>=range.start&&t.date<=range.end).reduce((s,t)=>s+Number(t.amount||0),0)}
 function budgetForCategory(category){return (state.spendingBudgets||[]).find(b=>b.category===category&&Number(b.limit)>0)}
@@ -938,14 +960,23 @@ function quickBudgetPeriodSummary(period){
 }
 function renderQuickBudgetOverview(){
   const box=el('quickBudgetOverview');if(!box)return;
-  const guard=currentBudgetGuard(),now=new Date(),lastDay=new Date(now.getFullYear(),now.getMonth()+1,0).getDate(),daysLeft=Math.max(1,lastDay-now.getDate()+1),weekDay=(now.getDay()+6)%7,daysToSunday=7-weekDay,weekDaysLeft=Math.max(1,Math.min(daysLeft,daysToSunday));
-  const available=Math.max(0,guard.remaining),daily=available/daysLeft,weekly=daily*weekDaysLeft,warn=guard.remaining<0;
-  const row=(label,title,sub,value,meta,isWarn=false)=>`<div class="quick-budget-row ${isWarn?'warn':''}"><div class="quick-budget-period">${label}</div><div class="quick-budget-main"><strong>${title}</strong><small>${sub}</small></div><div class="quick-budget-value"><strong>${value}</strong><small>${meta}</small></div></div>`;
-  box.innerHTML=[
-    row('Hoje','Ritmo seguro de hoje',`Divisão do orçamento flexível pelos ${daysLeft} dia(s) restantes do mês`,brl(daily),'para gastos flexíveis',warn),
-    row('Sem','Ritmo seguro da semana',`${weekDaysLeft} dia(s) até o fim desta semana, sem comprometer o mês`,brl(weekly),'até domingo',warn),
-    row('Mês','Disponível no mês',`Aporte de ${brl(guard.protectedSaving)} continua protegido`,warn?`-${brl(Math.abs(guard.remaining))}`:brl(guard.remaining),warn?'acima do teto':'livre no mês',warn)
-  ].join('');
+  const active=(state.spendingBudgets||[]).filter(b=>Number(b.limit)>0);
+  if(!active.length){box.innerHTML='<div class="home-spend-empty">Nenhum limite de gasto configurado. Abra Finanças para definir categorias e valores.</div>';return}
+  const order={day:0,week:1,month:2};
+  const rows=[...active].sort((a,b)=>(order[a.period]??3)-(order[b.period]??3)||String(a.category).localeCompare(String(b.category),'pt-BR'));
+  box.innerHTML=rows.map(b=>{
+    const limit=Math.max(0,Number(b.limit)||0),spent=budgetSpent(b),rawRemaining=limit-spent,over=rawRemaining<0,remaining=Math.max(0,rawRemaining),progress=limit?Math.min(100,Math.round(spent/limit*100)):0;
+    return `<button type="button" class="home-spend-item ${over?'over':''}" data-home-budget-category="${escapeHtml(b.category)}">
+      <span class="home-spend-icon">${appIcon(budgetIcon(b.category))}</span>
+      <span class="home-spend-copy">
+        <span class="home-spend-title-row"><strong>${escapeHtml(b.category)}</strong><span class="home-spend-period">${budgetUnitLabel(b.period)}</span></span>
+        <span class="home-spend-meta">Gasto ${brl(spent)} de ${brl(limit)} · ${progress}% usado</span>
+        <span class="home-spend-mini-progress"><span style="width:${progress}%"></span></span>
+      </span>
+      <span class="home-spend-value"><small>${over?'acima do limite':'ainda disponível'}</small><strong>${over?brl(Math.abs(rawRemaining)):brl(remaining)}</strong><span class="home-spend-tap">Registrar gasto</span></span>
+    </button>`;
+  }).join('');
+  box.querySelectorAll('[data-home-budget-category]').forEach(btn=>btn.addEventListener('click',()=>transactionModal('expense',btn.dataset.homeBudgetCategory||'')));
 }
 function renderBudgetGuard(){
   const panel=el('budgetGuardPanel');if(!panel)return;
@@ -1383,7 +1414,7 @@ function importHealthTrainingFile(file){if(!file)return;const reader=new FileRea
 function importLifeBackupFile(file){if(!file)return;const reader=new FileReader();reader.onload=()=>{try{const raw=JSON.parse(String(reader.result||'')),incoming=raw&&raw.state?raw.state:raw;if(!incoming||typeof incoming!=='object'||Array.isArray(incoming))throw new Error('invalid');if(!confirm('Importar este backup e substituir os dados atuais deste dispositivo?'))return;localStorage.setItem(KEY,JSON.stringify(incoming));state=load();render();toast('Backup importado com sucesso')}catch(err){console.error(err);toast('Arquivo de backup inválido')}};reader.readAsText(file)}
 if('serviceWorker' in navigator&&location.protocol!=='file:'){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(err=>console.warn('Service Worker:',err)))}
 
-function transactionModal(defaultType='expense'){openModal('Nova movimentação','FINANÇAS',`<label class="modal-field">Tipo<select id="mType"><option value="expense" ${defaultType==='expense'?'selected':''}>Despesa</option><option value="income" ${defaultType==='income'?'selected':''}>Receita</option></select></label><label class="modal-field">Descrição<input id="mDesc" placeholder="Ex.: mercado"></label><label class="modal-field">Valor (R$)<input type="number" id="mAmount" step="0.01" placeholder="0,00"></label><label class="modal-field">Categoria<select id="mCategory">${financeCategoryOptions().map(c=>`<option>${escapeHtml(c)}</option>`).join('')}</select></label><div id="mBudgetHint" class="transaction-budget-hint"></div><label class="modal-field">Data<input type="date" id="mDate" value="${todayKey()}"></label>`,()=>{const a=Number(el('mAmount').value),d=el('mDesc').value.trim();if(!a||!d)return false;state.transactions.push({id:crypto.randomUUID(),type:el('mType').value,description:d,amount:a,category:el('mCategory').value.trim(),date:el('mDate').value||todayKey(),created:Date.now()});save();toast('Movimentação registrada')});setTimeout(()=>{updateTransactionBudgetHint();el('mCategory')?.addEventListener('change',updateTransactionBudgetHint);el('mAmount')?.addEventListener('input',updateTransactionBudgetHint);el('mType')?.addEventListener('change',()=>{const hint=el('mBudgetHint');if(el('mType').value==='income'){hint.className='transaction-budget-hint';hint.textContent='Limites são aplicados apenas às despesas.'}else updateTransactionBudgetHint()})},0)}
+function transactionModal(defaultType='expense',defaultCategory=''){openModal('Nova movimentação','FINANÇAS',`<label class="modal-field">Tipo<select id="mType"><option value="expense" ${defaultType==='expense'?'selected':''}>Despesa</option><option value="income" ${defaultType==='income'?'selected':''}>Receita</option></select></label><label class="modal-field">Descrição<input id="mDesc" placeholder="Ex.: mercado"></label><label class="modal-field">Valor (R$)<input type="number" id="mAmount" step="0.01" placeholder="0,00"></label><label class="modal-field">Categoria<select id="mCategory">${financeCategoryOptions().map(c=>`<option ${c===defaultCategory?'selected':''}>${escapeHtml(c)}</option>`).join('')}</select></label><div id="mBudgetHint" class="transaction-budget-hint"></div><label class="modal-field">Data<input type="date" id="mDate" value="${todayKey()}"></label>`,()=>{const a=Number(el('mAmount').value),d=el('mDesc').value.trim();if(!a||!d)return false;state.transactions.push({id:crypto.randomUUID(),type:el('mType').value,description:d,amount:a,category:el('mCategory').value.trim(),date:el('mDate').value||todayKey(),created:Date.now()});save();toast('Movimentação registrada')});setTimeout(()=>{updateTransactionBudgetHint();el('mCategory')?.addEventListener('change',updateTransactionBudgetHint);el('mAmount')?.addEventListener('input',updateTransactionBudgetHint);el('mType')?.addEventListener('change',()=>{const hint=el('mBudgetHint');if(el('mType').value==='income'){hint.className='transaction-budget-hint';hint.textContent='Limites são aplicados apenas às despesas.'}else updateTransactionBudgetHint()})},0)}
 el('quickExpenseBtn').onclick=()=>transactionModal('expense');el('quickIncomeBtn').onclick=()=>transactionModal('income');el('registerCustomWaterBtn').onclick=()=>el('customWaterBtn').click();el('openFinanceFromRegister').onclick=()=>navigateTo('financas');el('addTransactionBtn').onclick=()=>transactionModal('expense');
 el('financeTabExpense').onclick=()=>{financeType='expense';el('financeTabExpense').classList.add('active');el('financeTabIncome').classList.remove('active');renderFinanceBreakdown()};el('financeTabIncome').onclick=()=>{financeType='income';el('financeTabIncome').classList.add('active');el('financeTabExpense').classList.remove('active');renderFinanceBreakdown()};
 el('configureBudgetsBtn').onclick=openBudgetsSetup;document.querySelectorAll('[data-budget-scenario]').forEach(btn=>btn.onclick=()=>{budgetScenarioView=btn.dataset.budgetScenario==='future'?'future':'current';renderSpendingBudgets()});el('goldenSetupBtn').onclick=openGoldenSetup;el('goldenExplainBtn').onclick=()=>openModal('Como funciona a Regra de Ouro','FINANÇAS',`<div style="font-size:11px;color:var(--muted);line-height:1.55"><p><strong style="color:var(--text)">50% · Necessidades</strong><br>Moradia, contas, mercado, transporte e saúde. Os vales entram aqui primeiro.</p><p><strong style="color:var(--text)">30% · Desejos</strong><br>Lazer, compras e metas de curto/médio prazo.</p><p><strong style="color:var(--text)">20% · Futuro</strong><br>Enquanto sua Reserva não atingir a meta de 6 meses, a parcela destinada ao futuro vai integralmente para ela. Depois disso, você poderá direcionar esse valor para investimentos e outros objetivos.</p><p>O cálculo usa centavos inteiros para a soma fechar exatamente no total informado.</p></div>`,()=>{return true},'Entendi');
