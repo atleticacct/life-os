@@ -212,7 +212,7 @@ button,.chip,.nav-btn,.fab,.report-btn{-webkit-tap-highlight-color:transparent;t
 
 
 /* =========================================================
-   V1.0.27 · Budget guard + current/future scenarios
+   V1.0.28 · Simplifica Saúde: remove registro de alimentação
    - hierarquia tipográfica mais limpa
    - menos cartões gigantes e menos rolagem
    - títulos sem quebras artificiais
@@ -364,6 +364,7 @@ p,small{overflow-wrap:normal;word-break:normal;hyphens:none}
 
 
 /* V1.0.27 · Proteção das metas + cenários financeiros */
+/* V1.0.28 · Alimentação desativada temporariamente; foco no financeiro */
 .budget-scenario-tabs{display:grid;grid-template-columns:1fr 1fr;gap:7px;padding:4px;background:#f2f5f9;border-radius:13px}
 .budget-scenario-btn{border:0;background:transparent;color:#6b7688;border-radius:10px;padding:9px 8px;font-size:10px;font-weight:850;cursor:pointer;transition:.18s ease}
 .budget-scenario-btn.active{background:#fff;color:var(--primary);box-shadow:0 2px 10px rgba(34,62,103,.08)}
@@ -380,6 +381,11 @@ p,small{overflow-wrap:normal;word-break:normal;hyphens:none}
 .future-kpis{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:10px}.future-kpi{background:#fff;border:1px solid #e1e8f4;border-radius:12px;padding:9px}.future-kpi small{display:block;font-size:7.7px;color:var(--muted);text-transform:uppercase}.future-kpi strong{display:block;font-size:13px;margin-top:3px}.future-kpi span{display:block;font-size:8px;color:var(--muted);margin-top:2px;line-height:1.3}
 .future-cost-list{display:grid;gap:7px}.future-cost-row{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding:9px 10px;border:1px solid var(--line);border-radius:12px;background:#fff;font-size:9.5px}.future-cost-row span{color:#5f6d81}.future-cost-row strong{font-size:10px;text-align:right}.future-cost-row.total{background:#f7f9fc}.future-cost-row.total span,.future-cost-row.total strong{font-weight:900;color:var(--text)}
 @media(max-width:390px){.budget-guard-main{grid-template-columns:1fr}.budget-guard-metrics{grid-template-columns:1fr 1fr}.budget-guard-metric:last-child{grid-column:1/-1}.future-kpis{grid-template-columns:1fr 1fr}}
+
+
+/* V1.0.28 · Alimentação temporariamente desativada.
+   Mantemos os elementos no DOM para preservar compatibilidade com dados e versões anteriores. */
+.feature-nutrition-disabled{display:none!important}
 
 </style>
 </head>
@@ -480,15 +486,15 @@ p,small{overflow-wrap:normal;word-break:normal;hyphens:none}
     </section>
 
     <section class="screen" data-screen="saude">
-      <header class="page-hero teal"><div class="hero-row"><div><span class="hero-kicker">SAÚDE & PERFORMANCE</span><h1>Seu corpo, seus dados.</h1><p>Acompanhe hábitos e evolução sem complicação.</p></div><div class="round-btn"><span class="ui-icon"><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.6-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.4-7 10-7 10Z"/></svg></span></div></div></header>
+      <header class="page-hero teal"><div class="hero-row"><div><span class="hero-kicker">SAÚDE & PERFORMANCE</span><h1>Seu corpo, seus dados.</h1><p>Acompanhe hidratação, treinos e evolução sem complicação.</p></div><div class="round-btn"><span class="ui-icon"><svg viewBox="0 0 24 24"><path d="M12 20s-7-4.6-7-10a4 4 0 0 1 7-2.5A4 4 0 0 1 19 10c0 5.4-7 10-7 10Z"/></svg></span></div></div></header>
       <div class="content">
         <div class="stats-grid">
           <div class="stat"><span class="stat-icon"><span class="ui-icon"><svg viewBox="0 0 24 24"><path d="M6 10v4M18 10v4M3 9v6M21 9v6M8 8v8M16 8v8M8 12h8"/></svg></span></span><strong id="weekWorkouts">0</strong><small>treinos na semana</small></div>
           <div class="stat"><span class="stat-icon"><span class="ui-icon"><svg viewBox="0 0 24 24"><path d="M12 3s5 5.3 5 9a5 5 0 0 1-10 0c0-3.7 5-9 5-9Z"/></svg></span></span><strong id="avgWater">0,0 L</strong><small>água hoje</small></div>
           <div class="stat"><span class="stat-icon"><span class="ui-icon"><svg viewBox="0 0 24 24"><path d="M18 14.5A6.5 6.5 0 0 1 9.5 6 7 7 0 1 0 18 14.5Z"/></svg></span></span><strong id="sleepStat">—</strong><small>sono registrado</small></div>
           <div class="stat"><span class="stat-icon"><span class="ui-icon"><svg viewBox="0 0 24 24"><path d="M5 8a7 7 0 0 1 14 0v8a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3V8Z"/><path d="m12 8 2 3"/></svg></span></span><strong id="weightStat">—</strong><small>peso atual</small></div>
-          <div class="stat"><span class="stat-icon"><span class="ui-icon"><svg viewBox="0 0 24 24"><path d="M7 3v7M4 3v4a3 3 0 0 0 6 0V3M7 10v11M15 3v18M15 3c4 1 5 5 5 8h-5"/></svg></span></span><strong id="nutritionProteinStat">0 g</strong><small>proteína hoje</small></div>
-          <div class="stat"><span class="stat-icon"><span class="ui-icon"><svg viewBox="0 0 24 24"><path d="M9 5h6M9 9h6M9 13h4"/><path d="M7 3h10a2 2 0 0 1 2 2v14H5V5a2 2 0 0 1 2-2Z"/></svg></span></span><strong id="nutritionMealsStat">0</strong><small>refeições hoje</small></div>
+          <div class="stat feature-nutrition-disabled"><span class="stat-icon"><span class="ui-icon"><svg viewBox="0 0 24 24"><path d="M7 3v7M4 3v4a3 3 0 0 0 6 0V3M7 10v11M15 3v18M15 3c4 1 5 5 5 8h-5"/></svg></span></span><strong id="nutritionProteinStat">0 g</strong><small>proteína hoje</small></div>
+          <div class="stat feature-nutrition-disabled"><span class="stat-icon"><span class="ui-icon"><svg viewBox="0 0 24 24"><path d="M9 5h6M9 9h6M9 13h4"/><path d="M7 3h10a2 2 0 0 1 2 2v14H5V5a2 2 0 0 1 2-2Z"/></svg></span></span><strong id="nutritionMealsStat">0</strong><small>refeições hoje</small></div>
         </div>
         <section class="card">
           <div class="section-head"><div><h2>Hidratação</h2><p>Meta diária personalizada</p></div><button class="text-btn" id="editWaterGoalBtn">Alterar</button></div>
@@ -499,11 +505,11 @@ p,small{overflow-wrap:normal;word-break:normal;hyphens:none}
           <div class="section-head"><div><h2>Plano semanal</h2><p>Musculação, Beach Tennis e recuperação em uma rotina só</p></div><span class="pill" id="trainingPlanBadge">CONFIGURAR</span></div>
           <div id="trainingPlanSummary"></div>
         </section>
-        <section class="card nutrition-profile">
+        <section class="card nutrition-profile feature-nutrition-disabled">
           <div class="section-head"><div><h2>Perfil Nutricional</h2><p>Metas estimadas conforme seu corpo, rotina e objetivo</p></div><button class="chip primary-chip" id="nutritionProfileBtn">Calcular metas</button></div>
           <div id="nutritionProfileSummary" class="profile-summary"></div>
         </section>
-        <section class="card nutrition-card">
+        <section class="card nutrition-card feature-nutrition-disabled">
           <div class="section-head"><div><h2>Alimentação</h2><p>Refeições, proteína e macros do dia</p></div><div class="nutrition-actions"><button class="text-btn" id="nutritionTargetsBtn">Ajustar</button><button class="chip primary-chip" id="addMealBtn">+ Refeição</button></div></div>
           <div class="nutrition-summary">
             <div class="nutrition-ring" id="proteinRing"><div class="nutrition-ring-inner"><strong id="proteinPct">0%</strong><small>proteína</small></div></div>
@@ -1251,7 +1257,7 @@ function healthReportSheets(period=reportPeriodValue()){
   const tp=state.trainingPlan||{},weekly=[['Dia','Tipo','Atividade','Horário','Fichas por fase'],...(tp.weeklySchedule||[]).slice().sort((a,b)=>Number(a.day)-Number(b.day)).map(x=>[dayShortName(x.day),x.type||'',x.label||'',x.time||'',x.templates?Object.values(x.templates).join(' | '):(x.templateId||'')])];
   const phases=[['Fase','Semana inicial','Semana final','Foco','Semanas leves'],...(tp.phases||[]).map(p=>[p.name||'',p.startWeek||'',p.endWeek||'',p.focus||'',(tp.deloadWeeks||[]).filter(w=>Number(w)>=Number(p.startWeek||1)&&Number(w)<=Number(p.endWeek||999)).join(', ')])];
   const templates=[['Ficha','Bloco','Exercício','Séries','Faixa de reps','Descanso','Observação'],...(state.workoutTemplates||[]).flatMap(w=>(w.exercises||[]).map(e=>[w.name,w.block||'',e.name,e.sets||'',e.reps||'',e.rest||'',e.note||'']))];
-  return[{name:'Saude - Metas',rows:targets},{name:'Plano Semanal',rows:weekly},{name:'Fases 24 Semanas',rows:phases},{name:'Fichas de Treino',rows:templates},{name:'Check-ins',rows:check},{name:'Hidratacao',rows:hydration},{name:'Treinos',rows:workoutSummary},{name:'Series de Treino',rows:workoutSets},{name:'Alimentacao',rows:mealRows},{name:'Qualidade Alimentacao',rows:quality}]
+  return[{name:'Saude - Metas',rows:[['Indicador','Meta'],['Água diária (ml)',Number(state.waterGoal)||0]]},{name:'Plano Semanal',rows:weekly},{name:'Fases 24 Semanas',rows:phases},{name:'Fichas de Treino',rows:templates},{name:'Check-ins',rows:check},{name:'Hidratacao',rows:hydration},{name:'Treinos',rows:workoutSummary},{name:'Series de Treino',rows:workoutSets}]
 }
 function tasksReportSheets(period=reportPeriodValue()){
   const tasks=(state.tasks||[]).filter(t=>reportDateAllowed(t.date,period)).slice().sort((a,b)=>String(a.date).localeCompare(String(b.date))||String(a.time||'').localeCompare(String(b.time||'')));
@@ -1475,8 +1481,8 @@ function startWorkoutSession(id){
   updateProgress();
 }
 el('startWorkoutBtn').onclick=()=>{const id=el('startWorkoutBtn').dataset.templateId;if(id)startWorkoutSession(id);else navigateTo('saude')};el('saveNoteBtn').onclick=()=>{state.notes[todayKey()]=el('dailyNote').value;save();toast('Nota salva')};
-el('fab').onclick=()=>openModal('Captura rápida','ADICIONAR',`<div class="grid-2"><button type="button" class="chip" id="fabWater">${appIcon('water','sm')} Água</button><button type="button" class="chip" id="fabExpense">${appIcon('expense','sm')} Gasto</button><button type="button" class="chip" id="fabGoal">${appIcon('target','sm')} Meta</button><button type="button" class="chip" id="fabWorkout">${appIcon('workout','sm')} Treino</button><button type="button" class="chip" id="fabTask">${appIcon('note','sm')} Tarefa</button><button type="button" class="chip" id="fabMeal">${appIcon('food','sm')} Refeição</button></div><p style="font-size:11px;color:var(--muted)">Escolha uma ação rápida.</p>`,()=>false);
-document.addEventListener('click',e=>{const btn=e.target.closest('#fabWater,#fabExpense,#fabGoal,#fabWorkout,#fabTask,#fabMeal');if(!btn)return;if(btn.id==='fabWater'){closeModal();el('customWaterBtn').click()}if(btn.id==='fabExpense'){closeModal();transactionModal('expense')}if(btn.id==='fabGoal'){closeModal();el('addGoalBtn').click()}if(btn.id==='fabWorkout'){closeModal();el('newWorkoutBtn').click()}if(btn.id==='fabTask'){closeModal();openTaskModal()}if(btn.id==='fabMeal'){closeModal();openMealModal()}});
+el('fab').onclick=()=>openModal('Captura rápida','ADICIONAR',`<div class="grid-2"><button type="button" class="chip" id="fabWater">${appIcon('water','sm')} Água</button><button type="button" class="chip" id="fabExpense">${appIcon('expense','sm')} Gasto</button><button type="button" class="chip" id="fabGoal">${appIcon('target','sm')} Meta</button><button type="button" class="chip" id="fabWorkout">${appIcon('workout','sm')} Treino</button><button type="button" class="chip" id="fabTask">${appIcon('note','sm')} Tarefa</button></div><p style="font-size:11px;color:var(--muted)">Escolha uma ação rápida.</p>`,()=>false);
+document.addEventListener('click',e=>{const btn=e.target.closest('#fabWater,#fabExpense,#fabGoal,#fabWorkout,#fabTask');if(!btn)return;if(btn.id==='fabWater'){closeModal();el('customWaterBtn').click()}if(btn.id==='fabExpense'){closeModal();transactionModal('expense')}if(btn.id==='fabGoal'){closeModal();el('addGoalBtn').click()}if(btn.id==='fabWorkout'){closeModal();el('newWorkoutBtn').click()}if(btn.id==='fabTask'){closeModal();openTaskModal()}});
 el('exportFinanceReportBtn').onclick=()=>exportLifeReport('finance');el('exportHealthReportBtn').onclick=()=>exportLifeReport('health');el('exportTasksReportBtn').onclick=()=>exportLifeReport('tasks');el('exportFullReportBtn').onclick=()=>exportLifeReport('full');
 el('installPwaBtn').onclick=()=>requestPwaInstall();
 el('pwaInstallHelpBtn').onclick=()=>showPwaInstallHelp();
